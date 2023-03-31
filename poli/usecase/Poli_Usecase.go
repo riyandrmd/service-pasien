@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"administrasi/models"
-	"administrasi/pasien"
+	"administrasi/poli"
 	"administrasi/request"
 	"encoding/json"
 	"fmt"
@@ -12,30 +12,30 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-func NewPasienUseCase(pasRepo pasien.PasienRepo, redis *redis.Client) *PasienUsecase {
-	return &PasienUsecase{
-		pasienRepo: pasRepo,
-		redis:      redis,
+func NewPoliUseCase(polRepo poli.PoliRepo, redis *redis.Client) *PoliUsecase {
+	return &PoliUsecase{
+		PoliRepo: polRepo,
+		redis:    redis,
 	}
 }
 
-type PasienUsecase struct {
-	pasienRepo pasien.PasienRepo
-	redis      *redis.Client
+type PoliUsecase struct {
+	PoliRepo poli.PoliRepo
+	redis    *redis.Client
 }
 
-func (pasienUC *PasienUsecase) GetAllPasienUC(c *gin.Context) ([]pasien.Pasien, *models.Pagination, error) {
-	var result []pasien.Pasien
+func (PoliUC *PoliUsecase) GetAllPoliUC(c *gin.Context) ([]poli.Poli, *models.Pagination, error) {
+	var result []poli.Poli
 
 	pagination, err := request.Paginate(c)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	dataRedis, err := pasienUC.redis.Get(c, "pasien").Result()
+	dataRedis, err := PoliUC.redis.Get(c, "Poli").Result()
 	if err != nil {
 		fmt.Println("database")
-		result, pagination, err := pasienUC.pasienRepo.GetAllPasienRepo(pagination)
+		result, pagination, err := PoliUC.PoliRepo.GetAllPoliRepo(pagination)
 		if err != nil {
 			return nil, nil, err
 		}
@@ -45,7 +45,7 @@ func (pasienUC *PasienUsecase) GetAllPasienUC(c *gin.Context) ([]pasien.Pasien, 
 			return nil, nil, err
 		}
 
-		err = pasienUC.redis.Set(c, "pasien", (datajson), 0).Err()
+		err = PoliUC.redis.Set(c, "Poli", (datajson), 0).Err()
 		if err != nil {
 			return nil, nil, err
 		}
@@ -62,30 +62,30 @@ func (pasienUC *PasienUsecase) GetAllPasienUC(c *gin.Context) ([]pasien.Pasien, 
 	}
 }
 
-func (pasienUC *PasienUsecase) CreatePasienUC(c *gin.Context) error {
-	var result pasien.Pasien
+func (PoliUC *PoliUsecase) CreatePoliUC(c *gin.Context) error {
+	var result poli.Poli
 	err := c.ShouldBindJSON(&result)
 	if err != nil {
 		return err
 	}
 
-	err = pasienUC.pasienRepo.CreatePasienRepo(&result)
+	err = PoliUC.PoliRepo.CreatePoliRepo(&result)
 	if err != nil {
 		return err
 	}
 
-	pasienUC.redis.Del(c, "pasien")
+	PoliUC.redis.Del(c, "Poli")
 
 	return nil
 }
 
-func (pasienUC *PasienUsecase) GetDetailPasienUC(c *gin.Context) (*pasien.Pasien, error) {
+func (PoliUC *PoliUsecase) GetDetailPoliUC(c *gin.Context) (*poli.Poli, error) {
 	ID, err := strconv.Atoi(c.Param("id"))
 	if err != nil || ID <= 0 {
 		return nil, err
 	}
 
-	result, err := pasienUC.pasienRepo.GetDetailPasienRepo(ID)
+	result, err := PoliUC.PoliRepo.GetDetailPoliRepo(ID)
 	if err != nil {
 		return nil, err
 	}
@@ -93,8 +93,8 @@ func (pasienUC *PasienUsecase) GetDetailPasienUC(c *gin.Context) (*pasien.Pasien
 	return result, nil
 }
 
-func (pasienUC *PasienUsecase) UpdatePasienUC(c *gin.Context) error {
-	var result pasien.Pasien
+func (PoliUC *PoliUsecase) UpdatePoliUC(c *gin.Context) error {
+	var result poli.Poli
 	ID, err := strconv.Atoi(c.Param("id"))
 	if err != nil || ID <= 0 {
 		return err
@@ -105,30 +105,30 @@ func (pasienUC *PasienUsecase) UpdatePasienUC(c *gin.Context) error {
 		return err
 	}
 
-	result.Id_Pasien = uint(ID)
+	result.Id_Poli = uint(ID)
 
-	err = pasienUC.pasienRepo.UpdatePasienRepo(&result)
+	err = PoliUC.PoliRepo.UpdatePoliRepo(&result)
 	if err != nil {
 		return err
 	}
 
-	pasienUC.redis.Del(c, "pasien")
+	PoliUC.redis.Del(c, "Poli")
 
 	return nil
 }
 
-func (pasienUC *PasienUsecase) DeletePasienUC(c *gin.Context) error {
+func (PoliUC *PoliUsecase) DeletePoliUC(c *gin.Context) error {
 	ID, err := strconv.Atoi(c.Param("id"))
 	if err != nil || ID <= 0 {
 		return err
 	}
 
-	err = pasienUC.pasienRepo.DeletePasienRepo(ID)
+	err = PoliUC.PoliRepo.DeletePoliRepo(ID)
 	if err != nil {
 		return err
 	}
 
-	pasienUC.redis.Del(c, "pasien")
+	PoliUC.redis.Del(c, "Poli")
 
 	return nil
 }
