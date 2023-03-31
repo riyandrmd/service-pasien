@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"administrasi/middleware"
 	"administrasi/poli"
 	"administrasi/response"
 	"net/http"
@@ -14,11 +15,11 @@ func PoliRoute(PoliUc poli.PoliUseCase, v1 *gin.RouterGroup) {
 	}
 
 	v2 := v1.Group("poli")
-	v2.GET("", uc.GetAllPoli)
-	v2.GET(":id", uc.GetDetail)
-	v2.POST("", uc.CreatePoli)
-	v2.PUT(":id", uc.UpdatePoli)
-	v2.DELETE(":id", uc.DeletePoli)
+	v2.GET("", middleware.Auth(), uc.GetAllPoli)
+	v2.GET(":id", middleware.Auth(), uc.GetDetail)
+	v2.POST("", middleware.Auth(), uc.CreatePoli)
+	v2.PUT(":id", middleware.Auth(), uc.UpdatePoli)
+	v2.DELETE(":id", middleware.Auth(), uc.DeletePoli)
 
 }
 

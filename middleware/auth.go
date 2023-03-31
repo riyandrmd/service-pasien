@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"administrasi/apperror"
-	"administrasi/authenticate"
 	"net/http"
 	"strings"
 	"time"
@@ -10,6 +9,10 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
+
+var AuthSecret = "rumah-sakit"
+var RefreshAuthSecret = "rumah-sakit-refresh"
+var From = "http://localhost:8082"
 
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -24,7 +27,7 @@ func Auth() gin.HandlerFunc {
 				return nil, apperror.New(http.StatusForbidden, http.StatusText(http.StatusForbidden))
 			}
 
-			return []byte(authenticate.AuthSecret), nil
+			return []byte(AuthSecret), nil
 		})
 		if err != nil {
 			apperror.Response(c, apperror.New(http.StatusForbidden, err.Error()))
