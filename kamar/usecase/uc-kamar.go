@@ -129,5 +129,5 @@ func (kamarUC *KamarUseCase) DeleteKamarUC(c *gin.Context) error {
 
 	kamarUC.redis.Del(c, "kamar")
 
-	// return nil
+	return nil
 }
