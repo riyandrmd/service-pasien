@@ -15,14 +15,14 @@ func PoliRoute(poliUc poli.PoliUseCase, r *gin.RouterGroup) {
 		poliUc,
 	}
 
-	v2 := r.Group("blog")
+	v2 := r.Group("poli")
 	v2.GET("", uc.GetAllPoli)
 	v2.POST("", uc.CreatePoli)
 	v2.PUT(":id", uc.UpdatePoli)
 	v2.DELETE(":id", uc.DeletePoli)
 }
 
-type blogPoli struct {
+type poliHandler struct {
 	poliUc poli.PoliUseCase
 }
 
