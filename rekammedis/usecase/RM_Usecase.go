@@ -74,8 +74,6 @@ func (RekamMedisUC *RekamMedisUC) CreateRekamMedisUC(c *gin.Context) error {
 		return err
 	}
 
-	RekamMedisUC.redis.Del(c, "poli")
-	RekamMedisUC.redis.Del(c, "pasien")
 	RekamMedisUC.redis.Del(c, "rekammedis")
 
 	return nil
@@ -114,8 +112,6 @@ func (RekamMedisUC *RekamMedisUC) UpdateRekamMedisUC(c *gin.Context) error {
 		return err
 	}
 
-	RekamMedisUC.redis.Del(c, "poli")
-	RekamMedisUC.redis.Del(c, "pasien")
 	RekamMedisUC.redis.Del(c, "rekammedis")
 
 	return nil
@@ -132,8 +128,6 @@ func (RekamMedisUC *RekamMedisUC) DeleteRekamMedisUC(c *gin.Context) error {
 		return err
 	}
 
-	RekamMedisUC.redis.Del(c, "poli")
-	RekamMedisUC.redis.Del(c, "pasien")
 	RekamMedisUC.redis.Del(c, "rekammedis")
 
 	return nil

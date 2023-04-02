@@ -74,9 +74,7 @@ func (PoliUC *PoliUsecase) CreatePoliUC(c *gin.Context) error {
 		return err
 	}
 
-	PoliUC.redis.Del(c, "pasien")
 	PoliUC.redis.Del(c, "poli")
-	PoliUC.redis.Del(c, "rekammedis")
 
 	return nil
 }
@@ -114,9 +112,7 @@ func (PoliUC *PoliUsecase) UpdatePoliUC(c *gin.Context) error {
 		return err
 	}
 
-	PoliUC.redis.Del(c, "pasien")
 	PoliUC.redis.Del(c, "poli")
-	PoliUC.redis.Del(c, "rekammedis")
 
 	return nil
 }
@@ -132,9 +128,7 @@ func (PoliUC *PoliUsecase) DeletePoliUC(c *gin.Context) error {
 		return err
 	}
 
-	PoliUC.redis.Del(c, "pasien")
 	PoliUC.redis.Del(c, "poli")
-	PoliUC.redis.Del(c, "rekammedis")
 
 	return nil
 }

@@ -32,7 +32,7 @@ func (pasienUC *PasienUsecase) GetAllPasienUC(c *gin.Context) ([]pasien.Pasien, 
 		return nil, nil, err
 	}
 
-	dataRedis, err := pasienUC.redis.Get(c, "rumahsakit").Result()
+	dataRedis, err := pasienUC.redis.Get(c, "pasien").Result()
 	if err != nil {
 		fmt.Println("database")
 		result, pagination, err := pasienUC.pasienRepo.GetAllPasienRepo(pagination)
@@ -45,7 +45,7 @@ func (pasienUC *PasienUsecase) GetAllPasienUC(c *gin.Context) ([]pasien.Pasien, 
 			return nil, nil, err
 		}
 
-		err = pasienUC.redis.Set(c, "rumahsakit", (datajson), 0).Err()
+		err = pasienUC.redis.Set(c, "pasien", (datajson), 0).Err()
 		if err != nil {
 			return nil, nil, err
 		}
@@ -74,7 +74,7 @@ func (pasienUC *PasienUsecase) CreatePasienUC(c *gin.Context) error {
 		return err
 	}
 
-	pasienUC.redis.Del(c, "rumahsakit")
+	pasienUC.redis.Del(c, "pasien")
 
 	return nil
 }
@@ -112,7 +112,7 @@ func (pasienUC *PasienUsecase) UpdatePasienUC(c *gin.Context) error {
 		return err
 	}
 
-	pasienUC.redis.Del(c, "rumahsakit")
+	pasienUC.redis.Del(c, "pasien")
 
 	return nil
 }
@@ -128,7 +128,7 @@ func (pasienUC *PasienUsecase) DeletePasienUC(c *gin.Context) error {
 		return err
 	}
 
-	pasienUC.redis.Del(c, "rumahsakit")
+	pasienUC.redis.Del(c, "pasien")
 
 	return nil
 }
