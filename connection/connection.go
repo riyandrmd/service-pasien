@@ -1,6 +1,7 @@
 package connection
 
 import (
+	"administrasi/dokter"
 	"administrasi/pasien"
 	"administrasi/poli"
 	"administrasi/rekammedis"
@@ -27,7 +28,7 @@ func ConnectToDb() *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	db.AutoMigrate(&poli.Poli{}, &pasien.Pasien{}, &rekammedis.RekamMedis{})
+	db.AutoMigrate(&poli.Poli{}, &pasien.Pasien{}, &dokter.Dokter{}, &rekammedis.RekamMedis{})
 
 	return db
 }
