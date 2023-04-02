@@ -18,7 +18,7 @@ func NewPoliRepository(db *gorm.DB) *PoliRepository{
 
 func (poliRepo *PoliRepository) GetAll() ([]*poli.Poli){
 	var result []*poli.Poli
-	data := blogRepo.db.Find(&result)
+	data := poliRepo.db.Find(&result)
 	if data.Error != nil {
 		return nil, nil, data.Error
 	}
@@ -27,7 +27,7 @@ func (poliRepo *PoliRepository) GetAll() ([]*poli.Poli){
 
 func (poliRepo *PoliRepository) CreatePoli(data *poli.Poli) error {
 	data.Slug = slug.Make(data.Title)
-	err := blogRepo.db.Create(data).Error
+	err := poliRepo.db.Create(data).Error
 	if err != nil {
 		return err
 	}
