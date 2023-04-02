@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"administrasi/middleware"
 	"administrasi/rekammedis"
 	"administrasi/response"
 	"net/http"
@@ -14,16 +15,12 @@ func RekamMedisRoute(rekdisUc rekammedis.RekamMedisUseCase, v1 *gin.RouterGroup)
 	}
 
 	v2 := v1.Group("rekammedis")
-	// v2.GET("", middleware.Auth(), uc.GetAllRekamMedis)
-	// v2.GET(":id", middleware.Auth(), uc.GetDetailRekamMedis)
-	// v2.POST("", middleware.Auth(), uc.CreateRekamMedis)
-	// v2.PUT(":id", middleware.Auth(), uc.UpdateRekamMedis)
-	// v2.DELETE(":id", middleware.Auth(), uc.DeleteRekamMedis)
-	v2.GET("", uc.GetAllRekamMedis)
-	v2.GET(":id", uc.GetDetailRekamMedis)
-	v2.POST("", uc.CreateRekamMedis)
-	v2.PUT(":id", uc.UpdateRekamMedis)
-	v2.DELETE(":id", uc.DeleteRekamMedis)
+
+	v2.GET("", middleware.Auth(), uc.GetAllRekamMedis)
+	v2.GET(":id", middleware.Auth(), uc.GetDetailRekamMedis)
+	v2.POST("", middleware.Auth(), uc.CreateRekamMedis)
+	v2.PUT(":id", middleware.Auth(), uc.UpdateRekamMedis)
+	v2.DELETE(":id", middleware.Auth(), uc.DeleteRekamMedis)
 
 }
 

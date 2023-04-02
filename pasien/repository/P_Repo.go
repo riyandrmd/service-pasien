@@ -21,7 +21,7 @@ func NewPasienRepo(db *gorm.DB) *PasienRepo {
 func (PasienRepo *PasienRepo) GetAllPasienRepo(pagination *models.Pagination) ([]pasien.Pasien, *models.Pagination, error) {
 	var result []pasien.Pasien
 
-	data := PasienRepo.db.Find(&result).Limit(pagination.Limit).Offset(pagination.Offset)
+	data := PasienRepo.db.Model(&pasien.Pasien{}).Preload("RekamMedis").Find(&result).Limit(pagination.Limit).Offset(pagination.Offset)
 	if data.Error != nil {
 		return nil, nil, data.Error
 	}
@@ -50,7 +50,7 @@ func (PasienRepo *PasienRepo) GetDetailPasienRepo(id int) (*pasien.Pasien, error
 	}
 
 	var result *pasien.Pasien
-	PasienRepo.db.Where("id_pasien = ?", id).Find(&pasien.Pasien{}).Scan(&result)
+	PasienRepo.db.Model(&pasien.Pasien{}).Preload("RekamMedis").Where("id_pasien = ?", id).Find(&result)
 
 	return result, nil
 }

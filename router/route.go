@@ -15,6 +15,10 @@ import (
 	poliHandler "administrasi/poli/handler"
 	poliRepo "administrasi/poli/repository"
 	poliUc "administrasi/poli/usecase"
+
+	rekdisHandler "administrasi/rekammedis/handler"
+	rekdisRepo "administrasi/rekammedis/repository"
+	rekdisUc "administrasi/rekammedis/usecase"
 )
 
 type Handlers struct {
@@ -27,13 +31,17 @@ type Handlers struct {
 func (h *Handlers) Routes() {
 	pasienRepo := pasienRepo.NewPasienRepo(h.DB)
 	poliRepo := poliRepo.NewPoliRepo(h.DB)
+	rekdisRepo := rekdisRepo.NewRekamMedisRepo(h.DB)
 
 	PasienUseCase := pasienUc.NewPasienUseCase(pasienRepo, h.Redis)
 	PoliUseCase := poliUc.NewPoliUseCase(poliRepo, h.Redis)
+	RekdisUseCase := rekdisUc.NewNewRekamMedisUC(rekdisRepo, h.Redis)
 
 	middleware.Add(h.R, middleware.CORSMiddleware())
 
 	v1 := h.R.Group("api")
 	pasienHandler.PasienRoute(PasienUseCase, v1)
 	poliHandler.PoliRoute(PoliUseCase, v1)
+	rekdisHandler.RekamMedisRoute(RekdisUseCase, v1)
+
 }

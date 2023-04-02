@@ -32,7 +32,7 @@ func (PoliUC *PoliUsecase) GetAllPoliUC(c *gin.Context) ([]poli.Poli, *models.Pa
 		return nil, nil, err
 	}
 
-	dataRedis, err := PoliUC.redis.Get(c, "Poli").Result()
+	dataRedis, err := PoliUC.redis.Get(c, "poli").Result()
 	if err != nil {
 		fmt.Println("database")
 		result, pagination, err := PoliUC.PoliRepo.GetAllPoliRepo(pagination)
@@ -45,7 +45,7 @@ func (PoliUC *PoliUsecase) GetAllPoliUC(c *gin.Context) ([]poli.Poli, *models.Pa
 			return nil, nil, err
 		}
 
-		err = PoliUC.redis.Set(c, "Poli", (datajson), 0).Err()
+		err = PoliUC.redis.Set(c, "poli", (datajson), 0).Err()
 		if err != nil {
 			return nil, nil, err
 		}
@@ -74,7 +74,9 @@ func (PoliUC *PoliUsecase) CreatePoliUC(c *gin.Context) error {
 		return err
 	}
 
-	PoliUC.redis.Del(c, "Poli")
+	PoliUC.redis.Del(c, "pasien")
+	PoliUC.redis.Del(c, "poli")
+	PoliUC.redis.Del(c, "rekammedis")
 
 	return nil
 }
@@ -112,7 +114,9 @@ func (PoliUC *PoliUsecase) UpdatePoliUC(c *gin.Context) error {
 		return err
 	}
 
-	PoliUC.redis.Del(c, "Poli")
+	PoliUC.redis.Del(c, "pasien")
+	PoliUC.redis.Del(c, "poli")
+	PoliUC.redis.Del(c, "rekammedis")
 
 	return nil
 }
@@ -128,7 +132,9 @@ func (PoliUC *PoliUsecase) DeletePoliUC(c *gin.Context) error {
 		return err
 	}
 
-	PoliUC.redis.Del(c, "Poli")
+	PoliUC.redis.Del(c, "pasien")
+	PoliUC.redis.Del(c, "poli")
+	PoliUC.redis.Del(c, "rekammedis")
 
 	return nil
 }

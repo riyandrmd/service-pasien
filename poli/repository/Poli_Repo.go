@@ -21,7 +21,7 @@ func NewPoliRepo(db *gorm.DB) *PoliRepo {
 func (PoliRepo *PoliRepo) GetAllPoliRepo(pagination *models.Pagination) ([]poli.Poli, *models.Pagination, error) {
 	var result []poli.Poli
 
-	data := PoliRepo.db.Model(&poli.Poli{}).Preload("Pasien").Find(&result).Limit(pagination.Limit).Offset(pagination.Offset)
+	data := PoliRepo.db.Model(&poli.Poli{}).Preload("Pasien.RekamMedis").Find(&result).Limit(pagination.Limit).Offset(pagination.Offset)
 	if data.Error != nil {
 		return nil, nil, data.Error
 	}
@@ -50,7 +50,7 @@ func (PoliRepo *PoliRepo) GetDetailPoliRepo(id int) (*poli.Poli, error) {
 	}
 
 	var result *poli.Poli
-	PoliRepo.db.Where("id_poli = ?", id).Find(&poli.Poli{}).Scan(&result)
+	PoliRepo.db.Model(&poli.Poli{}).Preload("Pasien.RekamMedis").Where("id_poli = ?", id).Find(&result)
 
 	return result, nil
 }

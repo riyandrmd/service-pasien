@@ -75,6 +75,8 @@ func (pasienUC *PasienUsecase) CreatePasienUC(c *gin.Context) error {
 	}
 
 	pasienUC.redis.Del(c, "pasien")
+	pasienUC.redis.Del(c, "poli")
+	pasienUC.redis.Del(c, "rekammedis")
 
 	return nil
 }
@@ -113,6 +115,8 @@ func (pasienUC *PasienUsecase) UpdatePasienUC(c *gin.Context) error {
 	}
 
 	pasienUC.redis.Del(c, "pasien")
+	pasienUC.redis.Del(c, "poli")
+	pasienUC.redis.Del(c, "rekammedis")
 
 	return nil
 }
@@ -129,6 +133,8 @@ func (pasienUC *PasienUsecase) DeletePasienUC(c *gin.Context) error {
 	}
 
 	pasienUC.redis.Del(c, "pasien")
+	pasienUC.redis.Del(c, "poli")
+	pasienUC.redis.Del(c, "rekammedis")
 
 	return nil
 }
