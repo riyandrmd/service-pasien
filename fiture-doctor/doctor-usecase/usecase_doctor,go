@@ -1,0 +1,47 @@
+package doctor-usecase
+
+
+import (
+	"fiture-doctor/doctor"
+	"strconv"
+
+	"github.com/gin-gonic/gin"
+)
+
+func NewDoctorUseCase(doctorRepo doctor.DoctorRepository) *DoctorUseCase {
+	return &DoctorUseCase{
+		doctorRepo,
+	}
+}
+
+type DoctorUseCase struct {
+	doctorRepo doctor.DoctorRepository
+}
+
+func (doctorUC *DoctorUseCase) GetAllDoctor(c *gin.Context) ([]*doctor.Dokter) {
+	if err != nil {
+		return nil, nil, err
+	}
+
+	result := doctorUC.doctorRepo.GetAllDoctor()
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return result
+}
+
+func (doctorUC *DoctorUseCase) CreateDoctor(c *gin.Context) error {
+	var result doctor.Dokter	
+	err := c.ShouldBindJSON(&result)
+	if err != nil {
+		return err
+	}
+
+	err = doctorUC.doctorRepo.CreateDoctor(&result)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
