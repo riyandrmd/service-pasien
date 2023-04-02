@@ -1,6 +1,7 @@
 package poli
 
 import (
+	"administrasi/dokter"
 	"administrasi/models"
 	"administrasi/pasien"
 
@@ -10,6 +11,7 @@ import (
 type Poli struct {
 	Id_Poli   uint            `gorm:"PrimaryKey" json:"id_poli"`
 	Nama_Poli string          `json:"nama_poli"`
+	Dokter    []dokter.Dokter `gorm:"foreignKey:Id_Poli" constraint:"OnUpdate:CASCADE,OnDelete:SET NULL;" json:"dokter_poli"`
 	Pasien    []pasien.Pasien `gorm:"foreignKey:Id_Poli" constraint:"OnUpdate:CASCADE,OnDelete:SET NULL;" json:"pasien"`
 }
 
