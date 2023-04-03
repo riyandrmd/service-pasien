@@ -21,7 +21,8 @@ func NewDokterRepo(db *gorm.DB) *DokterRepo {
 func (DokterRepo *DokterRepo) GetAllDokterRepo(pagination *models.Pagination) ([]dokter.Dokter, *models.Pagination, error) {
 	var result []dokter.Dokter
 
-	data := DokterRepo.db.Find(&result).Limit(pagination.Limit).Offset(pagination.Offset)
+	data := DokterRepo.db.Model(&dokter.Dokter{}).Preload("RekamMedis").Find(&result).Limit(pagination.Limit).Offset(pagination.Offset)
+
 	if data.Error != nil {
 		return nil, nil, data.Error
 	}

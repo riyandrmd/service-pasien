@@ -11,6 +11,10 @@ import (
 	dokterRepo "administrasi/dokter/repository"
 	dokterUc "administrasi/dokter/usecase"
 
+	kamarHandler "administrasi/kamar/handler"
+	kamarRepo "administrasi/kamar/repository"
+	kamarUc "administrasi/kamar/usecase"
+
 	"administrasi/middleware"
 	pasienHandler "administrasi/pasien/handler"
 	pasienRepo "administrasi/pasien/repository"
@@ -23,6 +27,10 @@ import (
 	rekdisHandler "administrasi/rekammedis/handler"
 	rekdisRepo "administrasi/rekammedis/repository"
 	rekdisUc "administrasi/rekammedis/usecase"
+
+	obatHandler "administrasi/obat/handler"
+	obatRepo "administrasi/obat/repository"
+	obatUc "administrasi/obat/usecase"
 )
 
 type Handlers struct {
@@ -37,11 +45,15 @@ func (h *Handlers) Routes() {
 	poliRepo := poliRepo.NewPoliRepo(h.DB)
 	rekdisRepo := rekdisRepo.NewRekamMedisRepo(h.DB)
 	dokterRepo := dokterRepo.NewDokterRepo(h.DB)
+	kamarRepo := kamarRepo.NewKamarRepo(h.DB)
+	obatRepo := obatRepo.NewObatRepo(h.DB)
 
 	PasienUseCase := pasienUc.NewPasienUseCase(pasienRepo, h.Redis)
 	PoliUseCase := poliUc.NewPoliUseCase(poliRepo, h.Redis)
 	RekdisUseCase := rekdisUc.NewNewRekamMedisUC(rekdisRepo, h.Redis)
 	dokterUc := dokterUc.NewDokterUC(dokterRepo, h.Redis)
+	kamarUc := kamarUc.NewKamarUseCase(kamarRepo, h.Redis)
+	obatUc := obatUc.NewObatUseCase(obatRepo, h.Redis)
 
 	middleware.Add(h.R, middleware.CORSMiddleware())
 
@@ -50,5 +62,7 @@ func (h *Handlers) Routes() {
 	poliHandler.PoliRoute(PoliUseCase, v1)
 	rekdisHandler.RekamMedisRoute(RekdisUseCase, v1)
 	dokterHandler.DokterRoute(dokterUc, v1)
+	kamarHandler.KamarRoute(kamarUc, v1)
+	obatHandler.ObatRoute(obatUc, v1)
 
 }
