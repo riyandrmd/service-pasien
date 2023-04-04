@@ -2,6 +2,7 @@ package handler
 
 import (
 	"administrasi/kamar"
+	"administrasi/middleware"
 	"administrasi/response"
 	"net/http"
 
@@ -15,11 +16,11 @@ func KamarRoute(KamarUc kamar.KamarUseCase, v1 *gin.RouterGroup) {
 
 	v2 := v1.Group("kamar")
 
-	v2.GET("", uc.GetAllKamar)
-	v2.GET(":id", uc.GetDetailKamar)
-	v2.POST("", uc.CreateKamar)
-	v2.PUT(":id", uc.UpdateKamar)
-	v2.DELETE(":id", uc.DeleteKamar)
+	v2.GET("", middleware.Auth(), uc.GetAllKamar)
+	v2.GET(":id", middleware.Auth(), uc.GetDetailKamar)
+	v2.POST("", middleware.Auth(), uc.CreateKamar)
+	v2.PUT(":id", middleware.Auth(), uc.UpdateKamar)
+	v2.DELETE(":id", middleware.Auth(), uc.DeleteKamar)
 
 }
 

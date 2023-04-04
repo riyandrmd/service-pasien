@@ -30,7 +30,7 @@ func ConnectToDb() *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	db.AutoMigrate(&poli.Poli{}, &pasien.Pasien{}, &dokter.Dokter{}, &kamar.Kamar{}, &rekammedis.RekamMedis{}, &obat.Obat{})
+	db.AutoMigrate(&poli.Poli{}, &pasien.Pasien{}, &dokter.Dokter{}, &kamar.Kamar{}, &obat.Obat{}, &rekammedis.RekamMedis{})
 
 	return db
 }

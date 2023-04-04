@@ -2,6 +2,7 @@ package handler
 
 import (
 	"administrasi/dokter"
+	"administrasi/middleware"
 	"administrasi/response"
 	"net/http"
 
@@ -15,11 +16,11 @@ func DokterRoute(DokterUc dokter.DokterUseCase, v1 *gin.RouterGroup) {
 
 	v2 := v1.Group("dokter")
 
-	v2.GET("", uc.GetAllDokter)
-	v2.GET(":id", uc.GetDetailDokter)
-	v2.POST("", uc.CreateDokter)
-	v2.PUT(":id", uc.UpdateDokter)
-	v2.DELETE(":id", uc.DeleteDokter)
+	v2.GET("", middleware.Auth(), uc.GetAllDokter)
+	v2.GET(":id", middleware.Auth(), uc.GetDetailDokter)
+	v2.POST("", middleware.Auth(), uc.CreateDokter)
+	v2.PUT(":id", middleware.Auth(), uc.UpdateDokter)
+	v2.DELETE(":id", middleware.Auth(), uc.DeleteDokter)
 
 }
 

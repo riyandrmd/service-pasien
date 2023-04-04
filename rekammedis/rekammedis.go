@@ -3,6 +3,7 @@ package rekammedis
 import (
 	"administrasi/kamar"
 	"administrasi/models"
+	"administrasi/obat"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +17,8 @@ type RekamMedis struct {
 	Id_Pasien   uint        `json:"id_pasien"`
 	Id_kamar    int         `json:"id_kamar"`
 	Id_obat     int         `json:"id_obat"`
-	Kamar       kamar.Kamar `gorm:"foreignKey:Id_kamar" constraint:"OnUpdate:CASCADE,OnDelete:SET NULL;" json:"kamar"`
+	Kamar       kamar.Kamar `gorm:"foreignKey:Id_kamar" constraint:"OnUpdate:CASCADE,OnDelete:SET NULL;" json:"kamar_inap"`
+	Obat        obat.Obat   `gorm:"foreignKey:Id_obat" constraint:"OnUpdate:CASCADE,OnDelete:SET NULL;" json:"obat"`
 }
 
 type RekamMedisRepo interface {

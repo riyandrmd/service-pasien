@@ -21,7 +21,7 @@ func NewRekamMedisRepo(db *gorm.DB) *RekDisRepo {
 func (RekDisRepo *RekDisRepo) GetAllRekamMedisRepo(pagination *models.Pagination) ([]rekammedis.RekamMedis, *models.Pagination, error) {
 	var result []rekammedis.RekamMedis
 
-	data := RekDisRepo.db.Model(&rekammedis.RekamMedis{}).Preload("Kamar").Find(&result).Limit(pagination.Limit).Offset(pagination.Offset)
+	data := RekDisRepo.db.Model(&rekammedis.RekamMedis{}).Preload("Kamar").Preload("Obat").Find(&result).Limit(pagination.Limit).Offset(pagination.Offset)
 	if data.Error != nil {
 		return nil, nil, data.Error
 	}
